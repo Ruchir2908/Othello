@@ -118,10 +118,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE){
             return;
         }
-        if(board[ni][nj].getColor()==currentPlayer || board[ni][nj].getColor()==NO_COLOR){
+        if(board[ni][nj].getColor()==NO_COLOR){
             return;
         }
-        board[ni][nj].setColor(currentPlayer);
+        if(board[ni][nj].getColor()==currentPlayer){
+            board[ni-x[k]][nj-y[k]].setColor(currentPlayer);
+        }
+
+
         change(ni+x[k],nj+y[k],k);
         return;
     }
