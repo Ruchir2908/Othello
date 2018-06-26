@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -84,23 +85,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view){
         if(currentStatus==INCOMPLETE){
             OButton button = (OButton) view;
-//            if(validMoveRecursive(view)) {
-////                Log.i("Enter","Enterring");
-//                button.setColor(currentPlayer);
-//                //changeColor(view);
-//                //checkGame();
-//                togglePlayer();
-//            }
-
-            button.setColor(currentPlayer);
 //            if(currentPlayer==BLACK){
 //                Count[currentPlayer]++;
 //            }else{
 //                Count[currentPlayer]++;
 //            }
-            validMoveRecursive(view);
-            togglePlayer();
-
+            if(validMoveRecursive(view)) {
+                changeColor(view);
+                button.setColor(currentPlayer);
+                togglePlayer();
+            }
         }
     }
 
@@ -121,7 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void change(int ni, int nj, int k) {
-        if(board[ni][nj].getColor()==currentPlayer){
+        if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE){
+            return;
+        }
+        if(board[ni][nj].getColor()==currentPlayer || board[ni][nj].getColor()==NO_COLOR){
             return;
         }
         board[ni][nj].setColor(currentPlayer);
@@ -141,19 +138,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ni = i + x[k];
             nj = j + y[k];
             if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE || board[ni][nj].getColor()==NO_COLOR || board[ni][nj].getColor()==currentPlayer){
+                ans = false;
                 continue;
             }
-            ans = validity(ni,nj,k);
-
-            if(ans){
-                change(ni,nj,k);
-//                break;
+            if(validity(ni,nj,k)){
+                ans = true;
+                //change(ni,nj,k);
+//                move = true;
+                break;
             }
         }
         return ans;
     }
 
     public boolean validity(int ni, int nj, int k) {
+        if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE){
+            return false;
+        }
         if(board[ni][nj].getColor()==currentPlayer){
             return true;
         }
@@ -326,8 +327,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void togglePlayer(){
         if(currentPlayer==BLACK){
             currentPlayer = WHITE;
+            Toast.makeText(this,"WHITE 1",Toast.LENGTH_LONG).show();
         }else{
             currentPlayer = BLACK;
+            Toast.makeText(this,"BLACK 0",Toast.LENGTH_LONG).show();
         }
     }
 
