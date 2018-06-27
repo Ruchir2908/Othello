@@ -110,14 +110,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE || board[ni][nj].getColor()==NO_COLOR || board[ni][nj].getColor()==currentPlayer){
                 continue;
             }
-            change(ni,nj,k);
+            change(ni,nj,k,true);
         }
     }
 
-    public void change(int ni, int nj, int k) {
+    public void change(int ni, int nj, int k,boolean first) {
         if(ni<0 || nj<0 || ni>=SIZE || nj>=SIZE){
             return;
         }
+//        if(first){
+//            board[ni][nj].setColor(currentPlayer);
+//        }
         if(board[ni][nj].getColor()==NO_COLOR){
             return;
         }
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        change(ni+x[k],nj+y[k],k);
+        change(ni+x[k],nj+y[k],k,false);
         return;
     }
 
