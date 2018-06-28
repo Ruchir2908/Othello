@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int SIZE = 8;
 
     public int currentPlayer;
+    public int opponent;
     public ArrayList<LinearLayout> rows;
     public OButton[][] board;
     public int currentStatus = INCOMPLETE;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rows = new ArrayList<>();
         board = new OButton[SIZE][SIZE];
         currentPlayer = BLACK;
+        opponent = WHITE;
         //rootLayout.removeAllViews();
 
         for(int i=0;i<SIZE;i++){
@@ -122,13 +124,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            board[ni][nj].setColor(currentPlayer);
 //        }
         if(board[ni][nj].getColor()==NO_COLOR){
+            board[ni-x[k]][nj-y[k]].setColor(opponent);
             return;
         }
         if(board[ni][nj].getColor()==currentPlayer){
-            board[ni-x[k]][nj-y[k]].setColor(currentPlayer);
+//            board[ni-x[k]][nj-y[k]].setColor(currentPlayer);
+            return;
         }
 
-
+        board[ni][nj].setColor(currentPlayer);
         change(ni+x[k],nj+y[k],k,false);
         return;
     }
@@ -334,9 +338,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void togglePlayer(){
         if(currentPlayer==BLACK){
             currentPlayer = WHITE;
+            opponent = BLACK;
             Toast.makeText(this,"WHITE 1",Toast.LENGTH_LONG).show();
         }else{
             currentPlayer = BLACK;
+            opponent = WHITE;
             Toast.makeText(this,"BLACK 0",Toast.LENGTH_LONG).show();
         }
     }
